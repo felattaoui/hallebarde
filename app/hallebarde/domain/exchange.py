@@ -11,6 +11,7 @@ class Exchange:
     download_token: str
     revoked_upload: bool = False
     creation_time: datetime = datetime.now(timezone.utc)
+    #email: str # mettre une regex par exple, se servir du package re : re.findall("[^\s()<>]+@[^\s()<>]+",content)
 
     @classmethod
     def generate(cls, sub: str):
