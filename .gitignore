@@ -28,6 +28,7 @@ __pycache__/
 .mypy_cache/
 
 .coverage
+.DS_Store
 
 # frontend
 hallebarde-frontend/node_modules/

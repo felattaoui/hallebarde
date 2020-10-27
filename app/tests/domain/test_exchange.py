@@ -10,7 +10,7 @@ class TestExchange(TestCase):
 
     def test_an_exchange_should_be_created_with_revoked_upload_set_to_false(self):
         # Given
-        exchange = Exchange('id1', 'sub1', 'up1', 'dl1')
+        exchange = Exchange('id1', 'sub1', 'up1', 'dl1', 'toto@octo.com')
 
         # Then
         assert exchange.revoked_upload is False
@@ -18,11 +18,12 @@ class TestExchange(TestCase):
     def test_exchanges_should_be_compared_on_identifier_email_tokens_upload_revocation_and_creation_time(self):
         # Given
         exchange1 = Exchange(identifier='id1', sub='sub1', upload_token='up1', download_token='dl1',
+                             email='toto@octo.com',
                              revoked_upload=False, creation_time=datetime.now())
-        exchange1bis = Exchange('id1', 'sub1', 'up1', 'dl1', False, exchange1.creation_time)
-        exchange2 = Exchange('id2', 'sub2', 'up2', 'dl2', False, exchange1.creation_time)
-        exchange3 = Exchange('id1', 'sub1', 'up1', 'dl1', True, exchange1.creation_time)
-        exchange4 = Exchange('id1', 'sub1', 'up1', 'dl1', False, datetime(2000,1,1))
+        exchange1bis = Exchange('id1', 'sub1', 'up1', 'dl1', 'toto@octo.com', False, exchange1.creation_time)
+        exchange2 = Exchange('id2', 'sub2', 'up2', 'dl2', 'toto@octo.com', False, exchange1.creation_time)
+        exchange3 = Exchange('id1', 'sub1', 'up1', 'dl1', 'toto@octo.com', True, exchange1.creation_time)
+        exchange4 = Exchange('id1', 'sub1', 'up1', 'dl1', 'toto@octo.com', False, datetime(2000, 1, 1))
 
         # Then
         assert exchange1 == exchange1bis
@@ -36,11 +37,12 @@ class TestExchange(TestCase):
         # Given
         mock_uuid.return_value = 'id1'
         mock_token.side_effect = ['up1', 'dl1']
+        email = 'hallebarde@octo.com'
 
         # When
-        generated_exchange = Exchange.generate('sub1')
+        generated_exchange = Exchange.generate('sub1', email)
 
         # Then
-        expected_exchange = Exchange('id1', 'sub1', 'up1', 'dl1', False, generated_exchange.creation_time)
+        expected_exchange = Exchange('id1', 'sub1', 'up1', 'dl1', email, False, generated_exchange.creation_time)
         assert expected_exchange == generated_exchange
         assert expected_exchange.creation_time < datetime.now(timezone.utc)
