@@ -12,7 +12,8 @@ class TestRevokeExchange:
                                                    revoke_event,
                                                    event_sub):
         # Given
-        mock_exchange_repo.get.return_value = Exchange.generate(event_sub)
+        email = 'prenom.nom@octo.com'
+        mock_exchange_repo.get.return_value = Exchange.generate(event_sub,email)
 
         # When
         response = handle(event=revoke_event, context={})
@@ -27,7 +28,8 @@ class TestRevokeExchange:
                                                    revoke_event,
                                                    event_sub):
         # Given
-        mock_exchange_repo.get.return_value = Exchange.generate(event_sub)
+        email = 'prenom.nom@octo.com'
+        mock_exchange_repo.get.return_value = Exchange.generate(event_sub, email)
 
         # When
         handle(event=revoke_event, context={})
@@ -41,7 +43,8 @@ class TestRevokeExchange:
                                                                              mock_exchange_repo, revoke_event,
                                                                              an_exchange):
         # Given
-        mock_exchange_repo.get.return_value = Exchange.generate('a_different_sub')
+        email = 'prenom.nom@octo.com'
+        mock_exchange_repo.get.return_value = Exchange.generate('a_different_sub', email)
 
         # When
         response = handle(event=revoke_event, context={})
